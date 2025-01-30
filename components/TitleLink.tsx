@@ -23,7 +23,7 @@ const TitleLink = () => {
         src="/dark-theme-logo.png"
         priority
       />{" "}
-      streamthing <span>Docs</span>
+      streamthing <span>docs</span>
     </Link>
   );
 };
