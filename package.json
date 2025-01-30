@@ -15,7 +15,6 @@
     "@prettier/plugin-php": "^0.22.2",
     "lucide-react": "^0.453.0",
     "next": "^15.1.6",
-    "next-sitemap": "^4.2.3",
     "prettier": "^3.3.3",
     "prettier-plugin-sh": "^0.14.0",
     "react": "^19.0.0",
