@@ -1,0 +1,99 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  border: 0px;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+  font-family: inherit;
+}
+
+:root {
+  color-scheme: var(--color-scheme);
+}
+
+a,
+button {
+  text-decoration: none;
+  color: var(--light-font-color);
+}
+
+button {
+  background: inherit;
+}
+
+body {
+  overflow-x: hidden !important;
+  background: var(--bg-color);
+  color: var(--light-font-color);
+}
+
+dialog[open] {
+  display: flex !important;
+}
+
+*:disabled {
+  cursor: not-allowed !important;
+  opacity: 0.8;
+}
+
+#wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+:root:has(body.dark-theme) {
+  --color-scheme: dark;
+  --bg-color: rgb(24, 24, 26);
+  --bg-color-light: rgb(42, 42, 42);
+  --opposite-color: rgb(245, 245, 245);
+  --light-font-color: rgb(161, 161, 170);
+  --contrast-font-color: white;
+  --light-theme-logo-display: none;
+  --dark-theme-logo-display: block;
+  --navbar-box-shadow-color: rgba(150, 150, 150, 0.07);
+  --toggle-theme-bg-color: rgb(40, 40, 40);
+  --toggle-theme-ball-color: rgb(26, 26, 26);
+  --method-bg-color: rgb(31, 31, 33);
+  --method-box-shadow: rgba(170, 170, 170, 0.1);
+  --code-filename-bg: rgb(30, 33, 37);
+  --current-section: rgba(255, 255, 255, 0.025);
+  --scrollbar-thumb-color: #676767;
+  --nice-blue: rgb(0, 98, 179);
+}
+
+:root:has(body.light-theme) {
+  --color-scheme: light;
+  --bg-color: white;
+  --bg-color-light: rgb(230, 230, 230);
+  --opposite-color: rgb(30, 30, 30);
+  --light-font-color: rgb(67, 67, 74);
+  --contrast-font-color: black;
+  --light-theme-logo-display: block;
+  --dark-theme-logo-display: none;
+  --navbar-box-shadow-color: rgba(45, 45, 45, 0.07);
+  --toggle-theme-bg-color: rgb(220, 220, 220);
+  --toggle-theme-ball-color: white;
+  --method-bg-color: rgb(244, 244, 245);
+  --method-box-shadow: rgba(45, 45, 45, 0.07);
+  --code-filename-bg: rgb(200, 200, 200);
+  --current-section: rgba(0, 0, 3, 0.075);
+  --scrollbar-thumb-color: rgb(180, 180, 180);
+  --nice-blue: rgb(0, 98, 179);
+}
+
+code {
+  counter-reset: step;
+  counter-increment: step 0;
+}
+
+code .line::before {
+  content: counter(step);
+  counter-increment: step;
+  width: 1rem;
+  margin-right: 1.5rem;
+  display: inline-block;
+  text-align: right;
+  color: rgba(115, 138, 148, 0.4);
+}

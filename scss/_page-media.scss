@@ -1,0 +1,6 @@
+@mixin media {
+  @media (width < 1000px) {
+    margin-left: 0px;
+    width: auto;
+  }
+}

@@ -1,0 +1,180 @@
+.main {
+  margin-left: 275px;
+  margin-top: 65px;
+  padding: 30px;
+  font-size: 15px;
+  width: 70%;
+}
+@media (width < 1000px) {
+  .main {
+    margin-left: 0px;
+    width: auto;
+  }
+}
+.main .title {
+  color: var(--contrast-font-color);
+  font-size: 25px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.main .externalLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7.5px;
+  background: var(--method-bg-color);
+  box-shadow: inset 0 0 0 1px var(--method-box-shadow);
+  border-radius: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+.main .section {
+  scroll-margin-top: 75px;
+}
+.main .section a {
+  color: var(--contrast-font-color);
+  font-size: 18.5px;
+  margin-bottom: 8px;
+}
+.main a {
+  color: var(--contrast-font-color);
+}
+.main .gap {
+  height: 15px;
+}
+.main .description {
+  font-size: 13.75px;
+  line-height: 28px;
+}
+.main .description span {
+  border-radius: 8px;
+  padding: 1.5px 6px;
+  font-size: 12.75px;
+  background: var(--method-bg-color);
+  box-shadow: inset 0 0 0 1px var(--method-box-shadow);
+}
+.main #separator {
+  margin: 10px 0px;
+  width: 100%;
+  height: 2px;
+  background: var(--navbar-box-shadow-color);
+}
+.main .code {
+  position: relative;
+  margin: 10px 0px;
+}
+.main .code pre {
+  overflow-x: auto;
+}
+.main .code .fileName {
+  padding: 9px 16px;
+  font-size: 14px;
+  background: var(--code-filename-bg);
+  border-radius: 10px 10px 0px 0px;
+  color: var(--contrast-font-color);
+}
+.main .code:has(.fileName) .copyText {
+  top: 50px;
+  right: 12.5px;
+}
+.main .code:has(.fileName) pre {
+  border-radius: 0px 0px 10px 10px;
+}
+.main .code pre {
+  border-radius: 10px;
+}
+.main .code:has([data-theme=light]) pre {
+  background: rgb(230, 230, 230) !important;
+}
+.main .code:hover .copyText {
+  opacity: 1;
+}
+.main .code .copyText {
+  top: 15px;
+  right: 17.5px;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 125ms ease-out;
+}
+.main .code .copyText svg:nth-child(1):has(+ svg.hidden) {
+  position: relative;
+  left: 24px;
+}
+.main .code .copyText svg {
+  border-radius: 0px !important;
+  transition-property: transform;
+  transition-duration: 200ms;
+}
+.main .code .copyText svg.hidden {
+  transform: scale(0);
+}
+.main .code pre {
+  line-height: 22px;
+  font-family: monospace;
+  font-size: 14.35px;
+  padding: 15px;
+}
+.main .methodReference > a {
+  display: block;
+  color: var(--contrast-font-color);
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding-left: 5px;
+  background: var(--method-bg-color);
+  box-shadow: inset 0 0 0 1px var(--method-box-shadow);
+  width: fit-content;
+  padding: 5px 7.5px;
+  border-radius: 10px;
+}
+.main .methodReference li {
+  display: grid;
+  grid-template-columns: 1.25fr 2fr;
+  align-items: center;
+  padding: 0px 5px;
+  align-items: center;
+}
+.main .methodReference li:not(:last-child)::after {
+  content: "";
+  grid-column: span 2;
+  background: var(--method-box-shadow);
+  width: 100%;
+  height: 2px;
+  margin: 10px 0px;
+}
+.main .methodReference li > :first-child {
+  width: fit-content;
+  border-radius: 9px;
+  padding: 2.5px 7.5px;
+  font-size: 14.5px;
+  background: var(--method-bg-color);
+  box-shadow: inset 0 0 0 1px var(--method-box-shadow);
+}
+.main .warning {
+  margin: 20px 0px;
+  color: black;
+  background: rgb(254, 236, 203);
+  padding: 15px;
+  font-size: 16.5px;
+  border-radius: 7.5px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.main .warning > span {
+  display: flex;
+  align-items: center;
+  gap: 7.5px;
+  font-size: 21px;
+  color: rgb(198, 109, 31);
+}
+.main .warning p {
+  display: inline;
+}
+.main .warning p span {
+  padding: 4px 7px;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 3px var(--method-box-shadow);
+  font-size: 16px;
+  background: rgb(204, 186, 153);
+}

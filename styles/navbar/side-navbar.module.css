@@ -1,0 +1,114 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: var(--bg-color);
+  height: 100vh;
+  width: 275px;
+  margin-top: 67px;
+  box-shadow: var(--navbar-box-shadow-color) 2px 2px 4px;
+}
+@media (width < 1000px) {
+  .nav {
+    display: none;
+  }
+}
+.nav > ul {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+.nav > ul > li {
+  text-align: left;
+  font-style: none;
+  z-index: 10;
+  padding: 15px 20px;
+}
+.nav > ul > li p {
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: var(--contrast-font-color);
+}
+.nav > ul > li > div {
+  position: relative;
+  margin-left: 10px;
+  border-left: 1px solid var(--navbar-box-shadow-color);
+}
+.nav > ul > li > div .sectionsContainer {
+  display: grid;
+  animation: fadeOut 500ms forwards;
+  transition: grid-template-rows 500ms;
+}
+@keyframes fadeOut {
+  from {
+    grid-template-rows: 0fr;
+  }
+  to {
+    grid-template-rows: 1fr;
+  }
+}
+.nav > ul > li > div .sectionsContainer .sections {
+  overflow: hidden;
+}
+.nav > ul > li > div .sectionsContainer .sections a {
+  padding-left: 40px;
+}
+.nav > ul > li > div .sectionsContainer .sections a::after {
+  display: none;
+}
+.nav > ul > li > div #currentSection {
+  background: var(--current-section);
+  border-radius: 5px;
+  height: var(--height);
+  width: calc(100% + 20px);
+  position: absolute;
+  top: 28px;
+  left: -10px;
+  transition-property: transform, height;
+  transition-duration: 350ms;
+  transform: translateY(var(--translateY));
+}
+.nav > ul > li > div #currentSection[data-active=false] {
+  display: none;
+}
+.nav > ul > li > div #currentSection[data-active=true] {
+  --height: 28px;
+  --translateY: -28px;
+}
+.nav > ul > li > div a {
+  position: relative;
+  padding: 2.5px;
+  padding-left: 15px;
+  font-size: 14px;
+  margin: 2px 0px;
+  display: block;
+  color: var(--light-font-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.nav > ul > li > div a.active::after {
+  content: "";
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-left: 1px solid red;
+}
+.nav > ul > li > div a.active[data-show-background=true]::before {
+  content: "";
+  background: var(--current-section);
+  border-radius: 5px;
+  height: 28px;
+  width: calc(100% + 20px);
+  position: absolute;
+  top: 0;
+  left: -10px;
+}
+.nav > ul > li > div a:hover {
+  color: var(--contrast-font-color);
+}
