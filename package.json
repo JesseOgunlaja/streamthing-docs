@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@prettier/plugin-php": "^0.22.2",
+    "@vercel/analytics": "^1.4.1",
     "lucide-react": "^0.453.0",
     "next": "^15.1.6",
     "prettier": "^3.3.3",

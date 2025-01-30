@@ -2,6 +2,7 @@ import Favicon from "@/components/Favicon";
 import SideNavbar from "@/components/navbar/SideNavbar";
 import TopNavbar from "@/components/navbar/TopNavbar";
 import StateProvider from "@/components/StateProvider";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { cookies } from "next/headers";
@@ -36,6 +37,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} ${theme}-theme`}>
+        <Analytics />
         <StateProvider theme={theme}>
           <TopNavbar />
           <SideNavbar />
