@@ -20,7 +20,6 @@ const Page = () => {
               region: process.env.SERVER_REGION,
               password: process.env.SERVER_PASSWORD,
               encryptionKey: process.env.SERVER_ENCRYPTION_KEY,
-              required: false, // Default: false
             });
         `}
         />
@@ -50,7 +49,6 @@ const Page = () => {
               region: process.env.SERVER_REGION,
               password: process.env.SERVER_PASSWORD,
               encryptionKey: process.env.SERVER_ENCRYPTION_KEY,
-              required: false, // Default: false
             });
 
             async function sendEvent() {
@@ -58,8 +56,6 @@ const Page = () => {
             }
 
             sendEvent()
-
-            // No need to disconnect as no socket connection is made if required isn't set to true;
           `}
         />
       </div>
@@ -76,15 +72,6 @@ const Page = () => {
           {
             name: "send",
             meaning: "Used to send events to the client",
-          },
-          {
-            name: "receive (Only if receiving is set to true)",
-            meaning: "Used to receive events from the server.",
-          },
-          {
-            name: "disconnect (Only if receiving is set to true)",
-            meaning:
-              "Used to disconnect from the server, to avoid hanging connections.",
           },
         ]}
       />
