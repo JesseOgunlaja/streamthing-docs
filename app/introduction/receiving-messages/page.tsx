@@ -13,13 +13,7 @@ const Page = () => {
           code={`
             import { createClientStream } from "streamthing";
 
-            const stream = createClientStream({
-              id: process.env.SERVER_ID,
-              region: process.env.SERVER_REGION,
-              password: process.env.SERVER_PASSWORD,
-              channel: "main",
-              encryptionKey: process.env.SERVER_ENCRYPTION_KEY,
-            });
+            const stream = await createClientStream(process.env.SERVER_REGION);
         `}
         />
       </div>
@@ -59,19 +53,20 @@ const Page = () => {
           code={`
             import { createClientStream } from "streamthing";
 
-            const stream = createClientStream({
-              id: process.env.SERVER_ID,
-              region: process.env.SERVER_REGION,
-              password: process.env.SERVER_PASSWORD,
-              channel: "main",
-              encryptionKey: process.env.SERVER_ENCRYPTION_KEY,
-            });
+            async function setupStream() {
+              const stream = await createClientStream(process.env.SERVER_REGION);
+              const res = await fetch("/api/get-streamthing-token?id=" + stream.id);
+              const data = await res.json();
+              stream.authenticate(data.token);
+              stream.receive("event", (message) => {
+                console.log(message);
+              });
 
-            stream.receive("event", (message) => {
-              console.log(message);
-            });
+              stream.disconnect() // Make sure to disconnect in order to avoid hanging connections
+            }
 
-            stream.disconnect() // Make sure to disconnect in order to avoid hanging connections
+            setupStream();
+
           `}
         />
       </div>
@@ -80,12 +75,17 @@ const Page = () => {
         id="client-stream"
         methodFunction="Client stream"
         methods={[
+          { name: "id", meaning: "String. Stores the socket ID" },
           {
-            name: "receive",
+            name: "authenticate(token)",
+            meaning: "Used to authenticate the client",
+          },
+          {
+            name: "receive(event, callback)",
             meaning: "Used to receive events from the server",
           },
           {
-            name: "disconnect",
+            name: "disconnect()",
             meaning:
               "Used to disconnect from the server, to avoid hanging connections",
           },

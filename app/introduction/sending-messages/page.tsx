@@ -1,6 +1,5 @@
 import ApiReference from "@/components/ApiReference";
 import CodeBlock from "@/components/code/CodeBlock";
-import Warning from "@/components/Warning";
 import styles from "@/styles/page.module.css";
 
 const Page = () => {
@@ -19,7 +18,6 @@ const Page = () => {
               id: process.env.SERVER_ID,
               region: process.env.SERVER_REGION,
               password: process.env.SERVER_PASSWORD,
-              encryptionKey: process.env.SERVER_ENCRYPTION_KEY,
             });
         `}
         />
@@ -48,7 +46,6 @@ const Page = () => {
               id: process.env.SERVER_ID,
               region: process.env.SERVER_REGION,
               password: process.env.SERVER_PASSWORD,
-              encryptionKey: process.env.SERVER_ENCRYPTION_KEY,
             });
 
             async function sendEvent() {
@@ -59,11 +56,6 @@ const Page = () => {
           `}
         />
       </div>
-      <Warning>
-        When using <span>encryptionKey</span> on the server to encrypt messages,
-        the same key must also be used in the client in order to decrypt them on
-        the client.
-      </Warning>
       <hr id={styles.separator} />
       <ApiReference
         id="server-stream"

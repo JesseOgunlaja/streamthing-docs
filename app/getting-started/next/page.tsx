@@ -17,8 +17,7 @@ const Page = () => {
           code={`
             SERVER_PASSWORD=abc123
             NEXT_PUBLIC_SERVER_REGION=us3
-            NEXT_PUBLIC_SERVER_ID=123987
-            NEXT_PUBLIC_SERVER_ENCRYPTION_KEY=super-secure-key
+            SERVER_ID=123987
           `}
         />
       </div>
@@ -27,26 +26,25 @@ const Page = () => {
         <a href="#server-setup">Server setup</a>
         <p>
           When using Next JS you can setup your server with either server
-          actions or Next JS route handlers
+          actions or Next JS route handlers. In the example we&apos;ll be using
+          server actions
         </p>
         <CodeBlock
-          fileName="actions/send-message.ts"
+          fileName="actions/streamthing.ts"
           code={`
             "use server";
 
             import { createServerStream } from "streamthing";
 
             export async function sendEvent(event: string, message: string) {
-              try {
                 // Some sort of auth
 
                 // Create a server stream
                 const stream = createServerStream({
                   channel: "main",
-                  id: process.env.NEXT_PUBLIC_SERVER_ID,
+                  id: process.env.SERVER_ID,
                   region: process.env.NEXT_PUBLIC_SERVER_REGION,
                   password: process.env.SERVER_PASSWORD,
-                  encryptionKey: process.env.NEXT_PUBLIC_SERVER_ENCRYPTION_KEY,
                 });
 
                 // Send the event and message
@@ -56,48 +54,20 @@ const Page = () => {
                   success: true,
                   message: "Successfully sent message"
                 }
-              }
-              catch(error) {
-                return {
-                  success: false,
-                  message: error,
-                }
-              }
             }
-          `}
-        />
-        OR
-        <CodeBlock
-          fileName="api/send-message/route.ts"
-          code={`
-          import { NextRequest, NextResponse } from 'next/server';
-          import { createServerStream } from 'streamthing';
 
-          export async function POST(request: NextRequest) {
-            try {
-              // Parse the request body
-              const { event, message } = await request.json();
+            export async function getToken(socketID: string) {
+              // Some sort of auth
 
-              // Some sort of auth (implement your authentication logic here)
-
-              // Create a server stream
-              const stream = createServerStream({
+              const token = await createToken({
+                id: process.env.SERVER_ID,
                 channel: "main",
-                id: process.env.NEXT_PUBLIC_SERVER_ID,
-                region: process.env.NEXT_PUBLIC_SERVER_REGION,
                 password: process.env.SERVER_PASSWORD,
-                encryptionKey: process.env.NEXT_PUBLIC_SERVER_ENCRYPTION_KEY,
+                socketID,
               });
 
-              // Send the event and message
-              await stream.send(event, message);
-
-              // Return a success response
-              return NextResponse.json({ success: true, message: 'Event sent successfully' });
-            } catch (error) {
-              return NextResponse.json({ success: false, error }, { status: 500 });
+              return token;
             }
-          }
           `}
         />
       </div>
@@ -113,49 +83,34 @@ const Page = () => {
             "use client"
 
             import { useEffect, useState } from "react";
-            import { createClientStream } from "streamthing";
+            import { createClientStream, ClientStream } from "streamthing";
 
             export default function Page() {
               // Initialize state
               const [data, setData] = useState<string>("");
 
               useEffect(() => {
+                let stream: ClientStream | null = null;
                 // Create client stream
-                const stream = createClientStream({
-                  channel: "main",
-                  id: process.env.NEXT_PUBLIC_SERVER_ID,
-                  password: process.env.NEXT_PUBLIC_SERVER_PASSWORD,
-                  region: process.env.NEXT_PUBLIC_SERVER_REGION,
-                  encryptionKey: process.env.NEXT_PUBLIC_SERVER_ENCRYPTION_KEY,
-                });
+                (async () => {
+                  stream = await createClientStream(process.env.NEXT_PUBLIC_SERVER_REGION);
+                  stream.authenticate(await getToken(stream.id));
 
-                // Create listener
-                stream.receive("keyboard-event", (message) => {
-                  // Handle data
-                  setData(message);
-                });
+                  // Create listener
+                  stream.receive("keyboard-event", (message) => {
+                    // Handle data
+                    setData(message);
+                  });
+          })();
 
-                // Send event
+                  // Send event
                 window.onkeydown = async (e) => {
                   await sendEvent("keyboard-event", e.key);
-
-                  // OR
-
-                  await fetch("/send-event", {
-                    method: "POST",
-                    headers: {
-                      "Content-type": "application/json"
-                    },
-                    body: JSON.stringify({
-                      event: "keyboard-event",
-                      message: e.key
-                    })
-                  })
                 };
 
                 return () => {
                   // Disconnect on unmount
-                  stream.disconnect();
+                  stream?.disconnect();
                 };
               }, []);
 

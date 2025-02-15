@@ -23,6 +23,16 @@ const SideNavbar = () => {
             </NavbarLink>
             <NavbarLink
               sections={[
+                { name: "Creating tokens", link: "#creating-tokens" },
+                { name: "Full example", link: "#full-example" },
+                { name: "Create Token", link: "#create-token" },
+              ]}
+              href="/introduction/generating-tokens"
+            >
+              Generating tokens
+            </NavbarLink>
+            <NavbarLink
+              sections={[
                 { name: "Setting up", link: "#setting-up" },
                 { name: "Creating listeners", link: "#creating-listeners" },
                 { name: "Accepting messages", link: "#accepting-messages" },
@@ -77,56 +87,6 @@ const SideNavbar = () => {
               href="/getting-started/next"
             >
               Next JS
-            </NavbarLink>
-            <NavbarLink
-              sections={[
-                { name: "Setting up", link: "#setting-up" },
-                { name: "Server setup", link: "#server-setup" },
-                { name: "Full example", link: "#full-example" },
-              ]}
-              href="/getting-started/solidstart"
-            >
-              SolidStart
-            </NavbarLink>
-            <NavbarLink
-              sections={[
-                { name: "Setting up", link: "#setting-up" },
-                { name: "Server setup", link: "#server-setup" },
-                { name: "Full example", link: "#full-example" },
-              ]}
-              href="/getting-started/svelte"
-            >
-              SvelteKit
-            </NavbarLink>
-            <NavbarLink
-              sections={[
-                { name: "Setting up", link: "#setting-up" },
-                { name: "Server setup", link: "#server-setup" },
-                { name: "Full example", link: "#full-example" },
-              ]}
-              href="/getting-started/nuxt"
-            >
-              Vue with Nuxt
-            </NavbarLink>
-            <NavbarLink
-              sections={[
-                { name: "Setting up", link: "#setting-up" },
-                { name: "Server setup", link: "#server-setup" },
-                { name: "Full example", link: "#full-example" },
-              ]}
-              href="/getting-started/angular"
-            >
-              Angular
-            </NavbarLink>
-            <NavbarLink
-              sections={[
-                { name: "Setting up", link: "#setting-up" },
-                { name: "Server setup", link: "#server-setup" },
-                { name: "Full example", link: "#full-example" },
-              ]}
-              href="/getting-started/expo"
-            >
-              Expo
             </NavbarLink>
           </div>
         </li>

@@ -18,8 +18,6 @@ const Page = () => {
           fileName=".env"
           code={`
             REACT_APP_SERVER_REGION=us3
-            REACT_APP_SERVER_ID=123987
-            REACT_APP_SERVER_ENCRYPTION_KEY=super-secure-key
           `}
         />
       </div>
@@ -37,64 +35,64 @@ const Page = () => {
 
       <div id="full-example" className={styles.section}>
         <a href="#full-example">Full example</a>
-        <p>Here is an example app using React with a server of your choice</p>
+        <p>Here is a full example app using React with Express server</p>
         <CodeBlock
           lang="tsx"
-          fileName="app/index.tsx"
+          fileName="src/App.tsx"
           code={`
-            "use client"
-
             import { useEffect, useState } from "react";
-            import { createClientStream } from "streamthing";
+            import { createClientStream, ClientStream } from "streamthing";
 
-            export default function Page() {
+            export default function App() {
               // Initialize state
               const [data, setData] = useState<string>("");
 
               useEffect(() => {
+                let stream: ClientStream | null = null;
+
                 // Create client stream
-                const stream = createClientStream({
-                  channel: "main",
-                  id: process.env.REACT_APP_SERVER_ID,
-                  password: process.env.REACT_APP_SERVER_PASSWORD,
-                  region: process.env.REACT_APP_SERVER_REGION,
-                  encryptionKey: process.env.REACT_APP_SERVER_ENCRYPTION_KEY,
-                });
+                (async () => {
+                  stream = await createClientStream(process.env.REACT_APP_SERVER_REGION);
 
-                // Create listener
-                stream.receive("keyboard-event", (message) => {
-                  // Handle data
-                  setData(message);
-                });
+                  // Get token from server
+                  const res = await fetch("/api/get-token?id=" + stream.id);
+                  const { token } = await res.json();
 
-                // Send event
+                  // Authenticate stream
+                  stream.authenticate(token);
+
+                  // Create listener
+                  stream.receive("keyboard-event", (message) => {
+                    setData(message);
+                  });
+                })();
+
                 window.onkeydown = async (e) => {
                   await fetch("/send-event", {
                     method: "POST",
                     headers: {
-                      "Content-type": "application/json"
+                      "Content-type": "application/json",
                     },
                     body: JSON.stringify({
                       event: "keyboard-event",
-                      message: e.key
-                    })
-                  })
+                      message: e.key,
+                    }),
+                  });
                 };
 
+                // Cleanup
                 return () => {
-                  // Disconnect on unmount
-                  stream.disconnect();
+                  stream?.disconnect();
                 };
               }, []);
 
-              // Render data
               return (
                 <div>
-                  <p>Data: {data}</p>
+                  <p>{data}</p>
                 </div>
               );
             }
-        `}
+          `}
         />
       </div>
       <div className={styles.gap}></div>

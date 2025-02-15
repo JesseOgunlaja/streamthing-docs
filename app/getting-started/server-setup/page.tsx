@@ -18,7 +18,6 @@ const Page = () => {
             SERVER_PASSWORD=abc123
             SERVER_REGION=us3
             SERVER_ID=123987
-            SERVER_ENCRYPTION_KEY=super-secure-key
           `}
         />
       </div>
@@ -34,10 +33,23 @@ const Page = () => {
           fileName="index.ts"
           code={`
             import Fastify from 'fastify';
-            import { createServerStream } from 'streamthing';
+            import { createServerStream, createToken } from 'streamthing';
 
             const fastify = Fastify();
             const PORT = process.env.PORT || 5000;
+
+            fastify.get('/get-streamthing-token', async (request, reply) => {
+              // Some sort of auth
+
+              const token = await createToken({
+                id: process.env.SERVER_ID,
+                channel: "main",
+                password: process.env.SERVER_PASSWORD,
+                socketID: request.query.socketID,
+              });
+
+              return token;
+            });
 
             fastify.post('/send-event', async (request, reply) => {
               try {
@@ -52,7 +64,6 @@ const Page = () => {
                   id: process.env.SERVER_ID,
                   region: process.env.SERVER_REGION,
                   password: process.env.SERVER_PASSWORD,
-                  encryptionKey: process.env.SERVER_ENCRYPTION_KEY,
                 });
 
                 // Send the event and message
