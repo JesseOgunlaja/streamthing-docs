@@ -13,7 +13,14 @@ const Page = () => {
           code={`
             import { createClientStream } from "streamthing";
 
-            const stream = await createClientStream(process.env.SERVER_REGION);
+            const res = await fetch("/api/get-streamthing-token");
+            const data = await res.json();
+
+            const stream = createClientStream({
+              region: process.env.SERVER_REGION,
+              id: process.env.SERVER_ID,
+              token: data.token,
+            });
         `}
         />
       </div>
@@ -54,10 +61,15 @@ const Page = () => {
             import { createClientStream } from "streamthing";
 
             async function setupStream() {
-              const stream = await createClientStream(process.env.SERVER_REGION);
-              const res = await fetch("/api/get-streamthing-token?id=" + stream.id);
+              const res = await fetch("/api/get-streamthing-token");
               const data = await res.json();
-              stream.authenticate(data.token);
+
+              const stream = createClientStream({
+                region: process.env.SERVER_REGION,
+                id: process.env.SERVER_ID,
+                token: data.token,
+              });
+
               stream.receive("event", (message) => {
                 console.log(message);
               });
@@ -75,11 +87,6 @@ const Page = () => {
         id="client-stream"
         methodFunction="Client stream"
         methods={[
-          { name: "id", meaning: "String. Stores the socket ID" },
-          {
-            name: "authenticate(token)",
-            meaning: "Used to authenticate the client",
-          },
           {
             name: "receive(event, callback)",
             meaning: "Used to receive events from the server",

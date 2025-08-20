@@ -42,21 +42,18 @@ const Page = () => {
               // Some sort of auth
 
               const token = await createToken({
-                id: process.env.SERVER_ID,
                 channel: "main",
                 password: process.env.SERVER_PASSWORD,
-                socketId: request.query.socketId,
               });
 
-              return token;
+              reply.send({token});
             });
 
             fastify.post('/send-event', async (request, reply) => {
               try {
-                // Parse the request body
                 const { event, message } = request.body;
 
-                // Some sort of auth (implement your authentication logic here)
+                // Some sort of auth
 
                 // Create a server stream
                 const stream = createServerStream({
@@ -66,11 +63,10 @@ const Page = () => {
                   password: process.env.SERVER_PASSWORD,
                 });
 
-                // Send the event and message
+                // Send message
                 await stream.send(event, message);
 
-                // Return a success response
-                return reply.send({ success: true, message: 'Event sent successfully' });
+                return reply.send({ success: true, message: 'Message sent successfully' });
               } catch (error) {
                 return reply.status(500).send({ success: false, message: error });
               }

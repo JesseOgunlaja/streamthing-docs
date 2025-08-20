@@ -17,7 +17,7 @@ const Page = () => {
           code={`
             SERVER_PASSWORD=abc123
             NEXT_PUBLIC_SERVER_REGION=us3
-            SERVER_ID=123987
+            NEXT_PUBLIC_SERVER_ID=123987
           `}
         />
       </div>
@@ -42,12 +42,12 @@ const Page = () => {
                 // Create a server stream
                 const stream = createServerStream({
                   channel: "main",
-                  id: process.env.SERVER_ID,
+                  id: process.env.NEXT_PUBLIC_SERVER_ID,
                   region: process.env.NEXT_PUBLIC_SERVER_REGION,
                   password: process.env.SERVER_PASSWORD,
                 });
 
-                // Send the event and message
+                // Send the message
                 await stream.send(event, message);
 
                 return {
@@ -56,14 +56,12 @@ const Page = () => {
                 }
             }
 
-            export async function getToken(socketId: string) {
+            export async function getToken() {
               // Some sort of auth
 
               const token = await createToken({
-                id: process.env.SERVER_ID,
                 channel: "main",
                 password: process.env.SERVER_PASSWORD,
-                socketId,
               });
 
               return token;
@@ -83,6 +81,7 @@ const Page = () => {
             "use client"
 
             import { useEffect, useState } from "react";
+            import { getToken, sendEvent } from "./actions/streamthing";
             import { createClientStream, ClientStream } from "streamthing";
 
             export default function Page() {
@@ -93,22 +92,23 @@ const Page = () => {
                 let stream: ClientStream | null = null;
                 // Create client stream
                 (async () => {
-                  stream = await createClientStream(process.env.NEXT_PUBLIC_SERVER_REGION);
-                  stream.authenticate(await getToken(stream.id));
+                  const token = await getToken();
+
+                  stream = createClientStream({
+                    region: process.env.NEXT_PUBLIC_SERVER_REGION,
+                    id: process.env.NEXT_PUBLIC_SERVER_ID,
+                    token,
+                  });
 
                   // Create listener
                   stream.receive("keyboard-event", (message) => {
                     // Handle data
                     setData(message);
                   });
-          })();
+                })();
 
-                  // Send event
+                // Send message
                 window.onkeydown = async (e) => {
-                  // Send from client
-                  stream?.send("keyboard-event", e.key);
-
-                  // Send from server
                   await sendEvent("keyboard-event", e.key);
                 };
 

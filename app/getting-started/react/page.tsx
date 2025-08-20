@@ -18,6 +18,7 @@ const Page = () => {
           fileName=".env"
           code={`
             REACT_APP_SERVER_REGION=us3
+            REACT_APP_SERVER_ID=123987
           `}
         />
       </div>
@@ -52,14 +53,14 @@ const Page = () => {
 
                 // Create client stream
                 (async () => {
-                  stream = await createClientStream(process.env.REACT_APP_SERVER_REGION);
-
-                  // Get token from server
-                  const res = await fetch("/api/get-token?id=" + stream.id);
+                  const res = await fetch("/get-streamthing-token");
                   const { token } = await res.json();
 
-                  // Authenticate stream
-                  stream.authenticate(token);
+                  stream = createClientStream({
+                    region: process.env.REACT_APP_SERVER_REGION,
+                    id: process.env.REACT_APP_SERVER_ID,
+                    token,
+                  });
 
                   // Create listener
                   stream.receive("keyboard-event", (message) => {

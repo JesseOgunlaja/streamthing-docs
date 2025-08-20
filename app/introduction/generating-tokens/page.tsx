@@ -18,10 +18,8 @@ const Page = () => {
 
             const token = await createToken(
               {
-                id: process.env.SERVER_ID ,
                 channel: "main",
-                password: process.env.SERVER_PASSWORD ,
-                socketId
+                password: process.env.SERVER_PASSWORD,
               },
             );
             return token;
@@ -39,18 +37,21 @@ const Page = () => {
             // api/get-streamthing-token
             const token = await createToken(
               {
-                id: process.env.SERVER_ID,
                 channel: "main",
                 password: process.env.SERVER_PASSWORD,
-                socketId,
               }
             );
             return token;
 
             // Somewhere on the client
-            const stream = await createClientStream(process.env.SERVER_REGION);
-            const res = await fetch("/api/get-streamthing-token?id=" + stream.id);
+            const res = await fetch("/api/get-streamthing-token");
             const data = await res.json();
+
+            const stream = createClientStream({
+              region: process.env.SERVER_REGION,
+              id: process.env.SERVER_ID,
+              token: data.token,
+            });
           `}
         />
       </div>
@@ -59,18 +60,10 @@ const Page = () => {
         id="create-token"
         methodFunction="createToken()"
         methods={[
-          {
-            name: "id",
-            meaning: "String. The server ID used to create the token",
-          },
-          { name: "channel", meaning: "String. The desired channel" },
-          {
-            name: "socketId",
-            meaning: "String. The socket ID used to create the token",
-          },
+          { name: "channel", meaning: "The desired channel" },
           {
             name: "password",
-            meaning: "String. The server password used to create the token",
+            meaning: "The server password used to create the token",
           },
         ]}
       />

@@ -31,20 +31,23 @@ export default function Home() {
         </p>
         <div className={styles.gap}></div>
         <p className={styles.description}>
-          The <span>createClientStream</span> function takes a{" "}
-          <span>region</span> value used to identify which server to hit. It
-          returns multiple functions one of which is the{" "}
-          <span>authenticate</span> function which takes a token as an argument
-          and is used to authenticate the client.
+          The <span>createClientStream</span> function takes an object of
+          arguments. The <span>id</span> and <span>region</span> values are used
+          to identify the server and the <span>token</span> value is used to
+          both authenticate the client and store the channel identifier.
         </p>
         <CodeBlock
           code={`
             import { createClientStream } from "streamthing";
 
-            const stream = await createClientStream(process.env.SERVER_REGION);
-            const res = await fetch("/api/get-streamthing-token?id=" + stream.id);
+            const res = await fetch("/api/get-streamthing-token");
             const data = await res.json();
-            stream.authenticate(data.token);
+
+            const stream = createClientStream({
+              region: process.env.SERVER_REGION,
+              id: process.env.SERVER_ID,
+              token: data.token,
+            });
           `}
         />
       </div>
@@ -87,7 +90,15 @@ export default function Home() {
         methods={[
           {
             name: "region",
-            meaning: "String. Used to identify which cluster the server is in",
+            meaning: "Used to identify which cluster the server is in",
+          },
+          {
+            name: "token",
+            meaning: "Used to authenticate the client",
+          },
+          {
+            name: "id",
+            meaning: "Used to identify the server",
           },
         ]}
       />
@@ -99,21 +110,20 @@ export default function Home() {
         methods={[
           {
             name: "id",
-            meaning: "String. To identify the server",
+            meaning: "Used to identify the server",
           },
           {
             name: "region",
-            meaning: "String. Used to identify which cluster the server is in",
+            meaning: "Used to identify which cluster the server is in",
           },
           {
             name: "password",
-            meaning:
-              "String. Used to authenticate all requests to send messages to the stream",
+            meaning: "Used to authenticate the server",
           },
           {
             name: "channel",
             meaning:
-              "String. Used to store a group of messages all relating to each other",
+              "Used to store a group of messages all relating to each other",
           },
         ]}
       />
