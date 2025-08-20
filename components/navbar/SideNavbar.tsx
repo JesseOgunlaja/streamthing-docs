@@ -49,6 +49,7 @@ const SideNavbar = () => {
                 { name: "Sending events", link: "#sending-events" },
                 { name: "Full example", link: "#full-example" },
                 { name: "Server Stream", link: "#server-stream" },
+                { name: "Client Stream", link: "#client-stream" },
               ]}
               href="/introduction/sending-messages"
             >

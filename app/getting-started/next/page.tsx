@@ -56,14 +56,14 @@ const Page = () => {
                 }
             }
 
-            export async function getToken(socketID: string) {
+            export async function getToken(socketId: string) {
               // Some sort of auth
 
               const token = await createToken({
                 id: process.env.SERVER_ID,
                 channel: "main",
                 password: process.env.SERVER_PASSWORD,
-                socketID,
+                socketId,
               });
 
               return token;
@@ -105,6 +105,10 @@ const Page = () => {
 
                   // Send event
                 window.onkeydown = async (e) => {
+                  // Send from client
+                  stream?.send("keyboard-event", e.key);
+
+                  // Send from server
                   await sendEvent("keyboard-event", e.key);
                 };
 

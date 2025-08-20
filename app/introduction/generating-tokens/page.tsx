@@ -21,7 +21,7 @@ const Page = () => {
                 id: process.env.SERVER_ID ,
                 channel: "main",
                 password: process.env.SERVER_PASSWORD ,
-                socketID
+                socketId
               },
             );
             return token;
@@ -42,7 +42,7 @@ const Page = () => {
                 id: process.env.SERVER_ID,
                 channel: "main",
                 password: process.env.SERVER_PASSWORD,
-                socketID,
+                socketId,
               }
             );
             return token;
@@ -65,7 +65,7 @@ const Page = () => {
           },
           { name: "channel", meaning: "String. The desired channel" },
           {
-            name: "socketID",
+            name: "socketId",
             meaning: "String. The socket ID used to create the token",
           },
           {

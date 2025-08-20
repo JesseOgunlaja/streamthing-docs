@@ -14,9 +14,9 @@ interface PropsType extends ComponentProps<typeof Link> {
   }[];
 }
 
-const NavbarLink = (props: PropsType) => {
+const NavbarLink = ({ href, sections, children, rewrite }: PropsType) => {
   const pathname = usePathname();
-  const isActive = props.href === pathname || props.rewrite === pathname;
+  const isActive = href === pathname || rewrite === pathname;
   const currentSectionBox = useRef<HTMLDivElement>(null);
 
   function onLinkClick(e: MouseEvent) {
@@ -28,9 +28,9 @@ const NavbarLink = (props: PropsType) => {
 
   useEffect(() => {
     setInterval(() => {
-      if (!props.sections || !isActive) return;
+      if (!sections || !isActive) return;
 
-      const visibleSections = props.sections
+      const visibleSections = sections
         .reduce(
           (acc, section) => {
             const element = document.querySelector(section.link) as
@@ -52,7 +52,7 @@ const NavbarLink = (props: PropsType) => {
         )
         .map((section) => `#${section.element.id}`);
 
-      const start = props.sections.findIndex(
+      const start = sections.findIndex(
         (section) => section.link === visibleSections[0]
       );
 
@@ -69,11 +69,11 @@ const NavbarLink = (props: PropsType) => {
     <div>
       <Link
         onClick={onLinkClick}
-        data-show-background={props.sections == undefined}
+        data-show-background={sections == undefined}
         className={isActive ? styles.active : ""}
-        {...props}
+        href={href}
       >
-        {props.children}
+        {children}
         <div
           data-active={isActive}
           ref={currentSectionBox}
@@ -84,7 +84,7 @@ const NavbarLink = (props: PropsType) => {
         <>
           <div className={styles.sectionsContainer}>
             <div className={styles.sections}>
-              {props.sections?.map((section) => (
+              {sections?.map((section) => (
                 <a key={section.name} href={section.link}>
                   {section.name}
                 </a>

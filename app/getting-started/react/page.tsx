@@ -68,6 +68,10 @@ const Page = () => {
                 })();
 
                 window.onkeydown = async (e) => {
+                  // Send from client
+                  stream?.send("keyboard-event", e.key);
+
+                  // Send from server
                   await fetch("/send-event", {
                     method: "POST",
                     headers: {

@@ -45,7 +45,7 @@ const Page = () => {
                 id: process.env.SERVER_ID,
                 channel: "main",
                 password: process.env.SERVER_PASSWORD,
-                socketID: request.query.socketID,
+                socketId: request.query.socketId,
               });
 
               return token;
