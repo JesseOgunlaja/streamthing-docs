@@ -1,6 +1,8 @@
 export function getCookie(name: string): string | undefined {
-	const value = `; ${document.cookie}`.split(`; ${name}=`).pop();
-	return value ? decodeURIComponent(value) : undefined;
+	const cookie = document.cookie
+		.split("; ")
+		.find((row) => row.startsWith(name + "="));
+	return cookie ? decodeURIComponent(cookie.split("=")[1]) : undefined;
 }
 
 export function setCookie(name: string, value: string, days: number) {
