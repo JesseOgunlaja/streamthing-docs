@@ -1,33 +1,33 @@
 {
-  "name": "streamthing-docs",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "powershell next dev --turbo",
-    "build": "powershell next build",
-    "start": "next start",
-    "lint": "next lint",
-    "watch-scss": "sass scss:styles app/globals.scss:app/globals.css --no-source-map --watch",
-    "compile-scss": "sass scss:styles app/globals.scss:app/globals.css --no-source-map",
-    "upgrade": "npm i next@latest react@latest react-dom@latest eslint-config-next@latest @types/react@latest @types/react-dom@latest"
-  },
-  "dependencies": {
-    "@prettier/plugin-php": "^0.22.2",
-    "@vercel/analytics": "^1.4.1",
-    "lucide-react": "^0.453.0",
-    "next": "^15.1.6",
-    "prettier": "^3.3.3",
-    "prettier-plugin-sh": "^0.14.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "shiki": "^1.22.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19.0.8",
-    "@types/react-dom": "^19.0.3",
-    "eslint": "^8",
-    "eslint-config-next": "^15.1.6",
-    "typescript": "^5"
-  }
+	"name": "streamthing-docs",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "next dev --turbo",
+		"build": "next build --turbo",
+		"start": "next start",
+		"lint": "biome check --write",
+		"watch-scss": "sass scss:styles app/globals.scss:app/globals.css --no-source-map --watch",
+		"compile-scss": "sass scss:styles app/globals.scss:app/globals.css --no-source-map",
+		"upgrade": "npm i next@latest react@latest react-dom@latest eslint-config-next@latest @types/react@latest @types/react-dom@latest"
+	},
+	"dependencies": {
+		"@prettier/plugin-php": "^0.22.2",
+		"@vercel/analytics": "^1.4.1",
+		"lucide-react": "^0.453.0",
+		"next": "^16.0.0",
+		"prettier": "^3.3.3",
+		"prettier-plugin-sh": "^0.14.0",
+		"react": "^19.2.0",
+		"react-dom": "^19.2.0",
+		"shiki": "^1.22.0"
+	},
+	"devDependencies": {
+		"@types/node": "^20",
+		"@types/react": "^19.2.2",
+		"@types/react-dom": "^19.2.2",
+		"eslint": "^9.38.0",
+		"eslint-config-next": "^16.0.0",
+		"typescript": "^5"
+	}
 }
