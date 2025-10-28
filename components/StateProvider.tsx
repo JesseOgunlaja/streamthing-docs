@@ -23,7 +23,9 @@ const StateProvider = ({ children }: PropsType) => {
 
 	useEffect(() => {
 		const themeCookie = getCookie("theme");
-		setTheme(themeCookie || "dark");
+		if (themeCookie === "dark" || themeCookie === "light") {
+			setTheme(themeCookie);
+		} else setTheme("dark");
 	}, []);
 
 	useEffect(() => {
