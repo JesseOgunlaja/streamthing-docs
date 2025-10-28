@@ -1,37 +1,39 @@
+"use cache";
+
 import CodeBlock from "@/components/code/CodeBlock";
 import styles from "@/styles/page.module.css";
 
-const Page = () => {
-  return (
-    <main className={styles.main}>
-      <p className={styles.title}>Server setup</p>
-      <div id="setting-up" className={styles.section}>
-        <a href="#setting-up">Setting up</a>
-        <p>Install package</p>
-        <CodeBlock lang="cmd" code={`npm install streamthing`} />
-        <div className={styles.gap}></div>
-        <p>Environment variables</p>
-        <CodeBlock
-          lang="dotenv"
-          fileName=".env"
-          code={`
+const Page = async () => {
+	return (
+		<main className={styles.main}>
+			<p className={styles.title}>Server setup</p>
+			<div id="setting-up" className={styles.section}>
+				<a href="#setting-up">Setting up</a>
+				<p>Install package</p>
+				<CodeBlock lang="cmd" code={`npm install streamthing`} />
+				<div className={styles.gap}></div>
+				<p>Environment variables</p>
+				<CodeBlock
+					lang="dotenv"
+					fileName=".env"
+					code={`
             SERVER_PASSWORD=abc123
             SERVER_REGION=us3
             SERVER_ID=123987
           `}
-        />
-      </div>
-      <div className={styles.gap}></div>
-      <div id="server-setup" className={styles.section}>
-        <a href="#server-setup">Server setup</a>
-        <p>
-          If the framework you use doesn&apos;t give you preconfigured route
-          handlers like Next JS, you&apos;ll have to create your own server. The
-          way we recommend you do this is by using Fastify.
-        </p>
-        <CodeBlock
-          fileName="index.ts"
-          code={`
+				/>
+			</div>
+			<div className={styles.gap}></div>
+			<div id="server-setup" className={styles.section}>
+				<a href="#server-setup">Server setup</a>
+				<p>
+					If the framework you use doesn&apos;t give you preconfigured route
+					handlers like Next JS, you&apos;ll have to create your own server. The
+					way we recommend you do this is by using Fastify.
+				</p>
+				<CodeBlock
+					fileName="index.ts"
+					code={`
             import Fastify from 'fastify';
             import { createServerStream, createToken } from 'streamthing';
 
@@ -39,10 +41,11 @@ const Page = () => {
             const PORT = process.env.PORT || 5000;
 
             fastify.get('/get-streamthing-token', async (request, reply) => {
-              // Some sort of auth
+              // Some sort of auth (determine channel from auth)
+              const channel = "user-123";
 
               const token = await createToken({
-                channel: "main",
+                channel,
                 password: process.env.SERVER_PASSWORD,
               });
 
@@ -53,18 +56,18 @@ const Page = () => {
               try {
                 const { event, message } = request.body;
 
-                // Some sort of auth
+                // Some sort of auth (determine channel from auth)
+                const channel = "user-123";
 
                 // Create a server stream
                 const stream = createServerStream({
-                  channel: "main",
                   id: process.env.SERVER_ID,
                   region: process.env.SERVER_REGION,
                   password: process.env.SERVER_PASSWORD,
                 });
 
                 // Send message
-                await stream.send(event, message);
+                await stream.send(channel, event, message);
 
                 return reply.send({ success: true, message: 'Message sent successfully' });
               } catch (error) {
@@ -85,9 +88,9 @@ const Page = () => {
 
             start();
           `}
-        />
-      </div>
-    </main>
-  );
+				/>
+			</div>
+		</main>
+	);
 };
 export default Page;

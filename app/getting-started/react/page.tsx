@@ -1,46 +1,48 @@
-import CodeBlock from "@/components/code/CodeBlock";
-import styles from "@/styles/page.module.css";
+"use cache";
+
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
+import CodeBlock from "@/components/code/CodeBlock";
+import styles from "@/styles/page.module.css";
 
-const Page = () => {
-  return (
-    <main className={styles.main}>
-      <p className={styles.title}>React Setup</p>
-      <div id="setting-up" className={styles.section}>
-        <a href="#setting-up">Setting up</a>
-        <p>Install package</p>
-        <CodeBlock lang="cmd" code={`npm install streamthing`} />
-        <div className={styles.gap}></div>
-        <p>Environment variables</p>
-        <CodeBlock
-          lang="dotenv"
-          fileName=".env"
-          code={`
+const Page = async () => {
+	return (
+		<main className={styles.main}>
+			<p className={styles.title}>React Setup</p>
+			<div id="setting-up" className={styles.section}>
+				<a href="#setting-up">Setting up</a>
+				<p>Install package</p>
+				<CodeBlock lang="cmd" code={`npm install streamthing`} />
+				<div className={styles.gap}></div>
+				<p>Environment variables</p>
+				<CodeBlock
+					lang="dotenv"
+					fileName=".env"
+					code={`
             REACT_APP_SERVER_REGION=us3
             REACT_APP_SERVER_ID=123987
           `}
-        />
-      </div>
-      <div className={styles.gap}></div>
-      <div id="server-setup" className={styles.section}>
-        <a href="#server-setup">Server setup</a>
-        <p>You&apos;ll need to create your own server.</p>
-        <Link
-          className={styles.externalLink}
-          href="/getting-started/server-setup"
-        >
-          Server setup <ExternalLink />
-        </Link>
-      </div>
+				/>
+			</div>
+			<div className={styles.gap}></div>
+			<div id="server-setup" className={styles.section}>
+				<a href="#server-setup">Server setup</a>
+				<p>You&apos;ll need to create your own server.</p>
+				<Link
+					className={styles.externalLink}
+					href="/getting-started/server-setup"
+				>
+					Server setup <ExternalLink />
+				</Link>
+			</div>
 
-      <div id="full-example" className={styles.section}>
-        <a href="#full-example">Full example</a>
-        <p>Here is a full example app using React with Express server</p>
-        <CodeBlock
-          lang="tsx"
-          fileName="src/App.tsx"
-          code={`
+			<div id="full-example" className={styles.section}>
+				<a href="#full-example">Full example</a>
+				<p>Here is a full example app using React with Express server</p>
+				<CodeBlock
+					lang="tsx"
+					fileName="src/App.tsx"
+					code={`
             import { useEffect, useState } from "react";
             import { createClientStream, ClientStream } from "streamthing";
 
@@ -98,10 +100,10 @@ const Page = () => {
               );
             }
           `}
-        />
-      </div>
-      <div className={styles.gap}></div>
-    </main>
-  );
+				/>
+			</div>
+			<div className={styles.gap}></div>
+		</main>
+	);
 };
 export default Page;

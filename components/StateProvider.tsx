@@ -1,47 +1,54 @@
 "use client";
 
-import { setCookie } from "@/utils";
 import { createContext, useContext, useEffect, useState } from "react";
+import { getCookie, setCookie } from "@/utils";
 
 interface PropsType {
-  children: React.ReactNode;
-  theme: string;
+	children: React.ReactNode;
 }
 
 interface ContextType {
-  theme: string;
-  toggleTheme: () => void;
+	theme: string;
+	toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ContextType>({
-  theme: "",
-  toggleTheme: () => "",
+	theme: "",
+	toggleTheme: () => "",
 });
 export const useTheme = () => useContext(ThemeContext);
 
-const StateProvider = ({ children, theme: startingTheme }: PropsType) => {
-  const [theme, setTheme] = useState(startingTheme);
+const StateProvider = ({ children }: PropsType) => {
+	const [theme, setTheme] = useState("");
 
-  function toggleTheme() {
-    setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
-  }
+	useEffect(() => {
+		const themeCookie = getCookie("theme");
+		if (themeCookie) {
+			setTheme(themeCookie);
+		}
+	}, []);
 
-  useEffect(() => {
-    setCookie("theme", theme, 365);
-    document.body.classList.add(`${theme}-theme`);
+	useEffect(() => {
+		setCookie("theme", theme, 365);
+		if (theme === "dark") {
+			document.body.classList.remove("light-theme");
+		} else {
+			document.body.classList.remove("dark-theme");
+		}
+		document.body.classList.add(`${theme}-theme`);
+	}, [theme]);
 
-    if (theme === "dark") {
-      document.body.classList.remove("light-theme");
-    } else {
-      document.body.classList.remove("dark-theme");
-    }
-  }, [theme]);
+	function toggleTheme() {
+		setTheme((currentTheme) => (currentTheme === "dark" ? "light" : "dark"));
+	}
 
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
+	if (!theme) return null;
+
+	return (
+		<ThemeContext.Provider value={{ theme, toggleTheme }}>
+			{children}
+		</ThemeContext.Provider>
+	);
 };
 
 export default StateProvider;

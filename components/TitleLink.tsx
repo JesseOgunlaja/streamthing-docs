@@ -1,31 +1,29 @@
-"use client";
-
-import styles from "@/styles/utils/title-link.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import styles from "@/styles/utils/title-link.module.css";
 
 const TitleLink = () => {
-  return (
-    <Link id={styles.link} href="/">
-      <Image
-        id={styles["light-theme-logo"]}
-        width={40}
-        height={40}
-        alt="Logo"
-        src="/light-theme-logo.png"
-        priority
-      />{" "}
-      <Image
-        id={styles["dark-theme-logo"]}
-        width={40}
-        height={40}
-        alt="Logo"
-        src="/dark-theme-logo.png"
-        priority
-      />{" "}
-      streamthing <span>docs</span>
-    </Link>
-  );
+	return (
+		<Link id={styles.link} href="/">
+			<Image
+				id={styles["light-theme-logo"]}
+				width={40}
+				height={40}
+				alt="Logo"
+				src="/light-theme-logo.png"
+				priority
+			/>{" "}
+			<Image
+				id={styles["dark-theme-logo"]}
+				width={40}
+				height={40}
+				alt="Logo"
+				src="/dark-theme-logo.png"
+				priority
+			/>{" "}
+			streamthing <span>docs</span>
+		</Link>
+	);
 };
 
 export default TitleLink;

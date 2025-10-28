@@ -1,19 +1,21 @@
+"use cache";
+
 import ApiReference from "@/components/ApiReference";
 import CodeBlock from "@/components/code/CodeBlock";
 import Warning from "@/components/Warning";
 import styles from "@/styles/page.module.css";
 
-const Page = () => {
-  return (
-    <main className={styles.main}>
-      <p className={styles.title}>Generating tokens</p>
-      <div id="creating-tokens" className={styles.section}>
-        <a href="#creating-tokens">Creating tokens</a>
-        <p>
-          To create a token use the <span>createToken</span> function
-        </p>
-        <CodeBlock
-          code={`
+const Page = async () => {
+	return (
+		<main className={styles.main}>
+			<p className={styles.title}>Generating tokens</p>
+			<div id="creating-tokens" className={styles.section}>
+				<a href="#creating-tokens">Creating tokens</a>
+				<p>
+					To create a token use the <span>createToken</span> function
+				</p>
+				<CodeBlock
+					code={`
             import { createToken } from "streamthing";
 
             const token = await createToken(
@@ -24,14 +26,14 @@ const Page = () => {
             );
             return token;
         `}
-        />
-      </div>
-      <div className={styles.gap}></div>
-      <Warning text="Generating tokens should only ever happen on the server to avoid leaking sensitive information to the client" />
-      <div id="full-example" className={styles.section}>
-        <a href="#full-example">Full example</a>
-        <CodeBlock
-          code={`
+				/>
+			</div>
+			<div className={styles.gap}></div>
+			<Warning text="Generating tokens should only ever happen on the server to avoid leaking sensitive information to the client" />
+			<div id="full-example" className={styles.section}>
+				<a href="#full-example">Full example</a>
+				<CodeBlock
+					code={`
             import { createToken } from "streamthing";
 
             // api/get-streamthing-token
@@ -53,22 +55,22 @@ const Page = () => {
               token: data.token,
             });
           `}
-        />
-      </div>
-      <hr id={styles.separator} />
-      <ApiReference
-        id="create-token"
-        methodFunction="createToken()"
-        methods={[
-          { name: "channel", meaning: "The desired channel" },
-          {
-            name: "password",
-            meaning: "The server password used to create the token",
-          },
-        ]}
-      />
-    </main>
-  );
+				/>
+			</div>
+			<hr id={styles.separator} />
+			<ApiReference
+				id="create-token"
+				methodFunction="createToken()"
+				methods={[
+					{ name: "channel", meaning: "The desired channel" },
+					{
+						name: "password",
+						meaning: "The server password used to create the token",
+					},
+				]}
+			/>
+		</main>
+	);
 };
 
 export default Page;
